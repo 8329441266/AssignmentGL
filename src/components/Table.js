@@ -1,10 +1,10 @@
 import React from "react";
-import { useState, useRef } from "react";
-const initialTask = [{ id: 1, title: "ABC", inProgress: "In-Progress" }];
+import { useState } from "react";
+const initialTask = [{ id: 1, title: "ABCS", inProgress: "In-Progress" }];
 
 function Table() {
-  let [task, setTask] = useState(initialTask);
-  let [inputData, setInputData] = useState("");
+  const [task, setTask] = useState(initialTask);
+  const [inputData, setInputData] = useState("");
 
   const onInputChange = (e) => {
     setInputData(e.target.value);
@@ -33,6 +33,11 @@ function Table() {
     setTask(newTask);
   };
 
+  const handleDelete = (id) => {
+    const newList = task.filter((li) => li.id !== id);
+    setTask(newList);
+  };
+
   return (
     <div>
       <input
@@ -44,7 +49,7 @@ function Table() {
         placeholder="Enter Here"
         onChange={onInputChange}
       />
-     
+
       <button className="button" disabled={!inputData} onClick={addInputData}>
         save
       </button>
@@ -57,20 +62,25 @@ function Table() {
             <th> Task Name</th>
             <th>Status</th>
             <th>Action</th>
+            <th>Button</th>
           </tr>
 
           {task &&
             task.map((item, i) => {
               console.log(item.inProgress);
               return (
-                
                 <tr key={i}>
                   <td>{item.title}</td>
                   <td>{item.inProgress}</td>
-                  
+
                   <td>
                     <button onClick={() => handleChange(i)}>
                       ChangeStatus
+                    </button>
+                  </td>
+                  <td>
+                    <button onClick={() => handleDelete(item.id)}>
+                      Delete
                     </button>
                   </td>
                 </tr>
